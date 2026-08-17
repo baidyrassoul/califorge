@@ -1,0 +1,17 @@
+{
+  "name": "califorge",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @califorge/web dev",
+    "build": "pnpm --filter @califorge/web build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm --filter @califorge/domain test"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

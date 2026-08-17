@@ -1,0 +1,15 @@
+{
+  "$schema": "https://supabase.com/docs/schemas/config.yaml",
+  "projects": {
+    "califorge": {
+      "id": "califorge",
+      "name": "CaliForge",
+      "config": {
+        "auth": {
+          "site_url": "http://localhost:3000",
+          "allowed_redirect_urls": ["http://localhost:3000"]
+        }
+      }
+    }
+  }
+}
