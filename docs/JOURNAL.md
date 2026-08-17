@@ -16,10 +16,11 @@
 
 ## Current snapshot
 
-> Last updated: **2026-08-14 (Session 2)**
+> Last updated: **2026-08-17 (Session 2 — end of week)**
 
 ### Where we stopped
-**Phase 0 in progress.** Monorepo scaffolded, waiting for user to run init commands.
+**Phase 0 in progress — Week 1, Day 1-2 complete.** Monorepo scaffolded,
+dependencies installed, tests passing, app boots, repo live on GitHub.
 
 ### Done so far
 - ✅ Project planning docs: `PROJECT.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
@@ -29,25 +30,33 @@
 - ✅ Session journal (`JOURNAL.md`) + full feature inventory (`FEATURES.md`)
 - ✅ Monorepo scaffold: root config, `apps/web` (Next.js+TS+Tailwind),
   `packages/domain` (XP engine + tests), supabase migrations skeleton
+- ✅ `pnpm install` — all 90 packages installed
+- ✅ `pnpm test:unit` — 3/3 tests pass (XP engine)
+- ✅ `pnpm dev` — app boots on localhost:3000 (Next.js 15 + Turbopack)
+- ✅ Git initialized + first commit on `master`
+- ✅ GitHub CLI installed + authenticated (baidyrassoul)
+- ✅ Private repo created: `baidyrassoul/califorge`
+- ✅ Code pushed to GitHub
 
 ### In progress
-- ⏳ Shell/EPERM still broken → fallback mode (I write files, user runs commands)
-- ⏳ Waiting on: `pnpm install`, `git init`, GitHub repo creation, first commit
+- ⏳ Nothing active — paused until next week
 
 ### HALF-DONE / to be careful about
 - Domain engine has only `xp.ts` + tests — Week 2 will add skill-tree, achievements,
   quests, scoring engines.
 - Supabase migration `001_initial_schema.sql` has only `users` + `profiles` tables
   + basic RLS. Full schema comes in Week 2.
+- Default branch is `master` (Windows default). Consider renaming to `main`
+  in Session 3 for consistency with workflow docs.
 
 ### Blockers
-- 🚧 **Shell EPERM persists** — confirmed in Session 2. Using file-tools fallback.
+- 🚧 **Shell EPERM persists** — workaround confirmed: I write files, user runs commands.
+  This is sustainable long-term.
 
-### Next session checklist (Session 3 — day 2 of Week 1)
-- [ ] User runs init commands (see Session 2 notes below)
-- [ ] Verify: `pnpm dev` boots, `pnpm test:unit` passes
-- [ ] First commit on `main`, push to GitHub (private repo `califorge`)
+### Next session checklist (Session 3 — day 3 of Week 1)
+- [ ] Rename branch `master` → `main` (if desired)
 - [ ] CI pipeline setup (GitHub Actions: typecheck/lint/test)
+- [ ] Branch protection on `main` (require PR + green CI)
 - [ ] Update this journal at end of session
 
 > The rest of Week 1 lives in the **Week plan** below — we take it one step per
@@ -147,7 +156,7 @@
 
 ---
 
-## SESSION 2 — 2026-08-14 (1.5 h) — Monorepo scaffold
+## SESSION 2 — 2026-08-14 to 2026-08-17 (2.5 h) — Monorepo scaffold + GitHub
 
 **Done:**
 - [x] Confirmed shell EPERM persists → switched to file-tools fallback
@@ -157,22 +166,37 @@
 - [x] Created `packages/domain`: XP engine (`xp.ts`) + unit tests (`xp.test.ts`)
 - [x] Created `supabase/migrations/001_initial_schema.sql` (users + profiles + RLS)
 - [x] Updated `README.md` with repo layout and getting started instructions
+- [x] User installed pnpm (npm install -g pnpm) → v9.15.0
+- [x] User ran `pnpm install` — 90 packages, all resolved
+- [x] `pnpm test:unit` — 3/3 tests pass (XP engine)
+- [x] `pnpm dev` — app boots on localhost:3000 (Next.js 15 + Turbopack)
+- [x] Git init + first commit (46 files, conventional commit message)
+- [x] GitHub CLI installed + authenticated (baidyrassoul, HTTPS)
+- [x] Private repo created: `baidyrassoul/califorge`
+- [x] Code pushed to GitHub (master branch)
+- [x] Updated DECISIONS.md (2 new entries: private repo, pnpm workspaces)
+- [x] Updated JOURNAL.md
 
 **Learnings / decisions:**
 - Decision: repo GitHub = **privé** (user preference)
 - Decision: monorepo manager = **pnpm workspaces** (standard, fast, good for monorepos)
 - Tailwind v4 uses `@tailwindcss/postcss` plugin (not the old `tailwindcss` PostCSS plugin)
+- GitHub CLI PATH issue on Windows: installed at `C:\Program Files\GitHub CLI\gh.exe`,
+  need to add to PATH manually or restart terminal
+- User confirmed: security is top priority, quality over speed, take years if needed
+- User confirmed: no characters/music in app — pure gamified fitness tracker
 
 **HALF-DONE:**
-- User must run init commands in their terminal (EPERM prevents me from doing it)
+- None. Session completed successfully.
 
 **Next session:**
-- [ ] User runs: `pnpm install`, `git init`, GitHub repo, first commit
-- [ ] Verify: `pnpm dev` boots, `pnpm test:unit` passes
-- [ ] CI pipeline (GitHub Actions)
+- [ ] Rename branch `master` → `main` (for consistency)
+- [ ] CI pipeline (GitHub Actions: typecheck/lint/test)
+- [ ] Branch protection on `main`
 - [ ] Update journal
 
 **Blockers:**
-- Shell EPERM persists — workaround: I write files, user runs commands manually
+- Shell EPERM persists — workaround confirmed: I write files, user runs commands manually.
+  This is sustainable. No blocker.
 
-**Morale:** 9/10 — le scaffold est propre, on avance malgré le blocage shell.
+**Morale:** 9/10 — on a fait plus que prévu. Le toolchain fonctionne, le repo est en ligne, la base est solide.
