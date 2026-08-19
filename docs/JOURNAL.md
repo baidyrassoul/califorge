@@ -16,11 +16,12 @@
 
 ## Current snapshot
 
-> Last updated: **2026-08-17 (Session 2 — end of week)**
+> Last updated: **2026-08-19 (Session 4)**
 
 ### Where we stopped
-**Phase 0 in progress — Week 1, Day 1-2 complete.** Monorepo scaffolded,
-dependencies installed, tests passing, app boots, repo live on GitHub.
+**Phase 0 in progress — Week 1, Day 1-4 complete.** Monorepo scaffolded,
+dependencies installed, tests passing, CI pipeline live & green, repo public on GitHub,
+Supabase project created + initial migration deployed.
 
 ### Done so far
 - ✅ Project planning docs: `PROJECT.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
@@ -30,33 +31,36 @@ dependencies installed, tests passing, app boots, repo live on GitHub.
 - ✅ Session journal (`JOURNAL.md`) + full feature inventory (`FEATURES.md`)
 - ✅ Monorepo scaffold: root config, `apps/web` (Next.js+TS+Tailwind),
   `packages/domain` (XP engine + tests), supabase migrations skeleton
-- ✅ `pnpm install` — all 90 packages installed
+- ✅ `pnpm install` — all packages installed
 - ✅ `pnpm test:unit` — 3/3 tests pass (XP engine)
 - ✅ `pnpm dev` — app boots on localhost:3000 (Next.js 15 + Turbopack)
-- ✅ Git initialized + first commit on `master`
+- ✅ Git initialized + first commit
 - ✅ GitHub CLI installed + authenticated (baidyrassoul)
-- ✅ Private repo created: `baidyrassoul/califorge`
-- ✅ Code pushed to GitHub
+- ✅ Repo public + pushed: `baidyrassoul/califorge` (branch `main`)
+- ✅ CI pipeline: GitHub Actions (typecheck/lint/test on push + PR)
+- ✅ Branch protection on `main` (status checks required)
+- ✅ CI green — first PR merged (#1: eslint deps fix)
+- ✅ Supabase project created (free tier, nano compute)
+- ✅ Supabase CLI installed + linked + authenticated
+- ✅ Migration `001_initial_schema.sql` deployed (users + profiles + RLS)
+- ✅ `.env.local` with Supabase URL + anon key (gitignored)
 
 ### In progress
-- ⏳ Nothing active — paused until next week
+- ⏳ Nothing active
 
 ### HALF-DONE / to be careful about
 - Domain engine has only `xp.ts` + tests — Week 2 will add skill-tree, achievements,
   quests, scoring engines.
-- Supabase migration `001_initial_schema.sql` has only `users` + `profiles` tables
-  + basic RLS. Full schema comes in Week 2.
-- Default branch is `master` (Windows default). Consider renaming to `main`
-  in Session 3 for consistency with workflow docs.
+- Supabase schema has only `users` + `profiles` — full schema comes in Week 2.
+- `.env.local` has real Supabase credentials — never commit this file.
 
 ### Blockers
 - 🚧 **Shell EPERM persists** — workaround confirmed: I write files, user runs commands.
   This is sustainable long-term.
 
-### Next session checklist (Session 3 — day 3 of Week 1)
-- [ ] Rename branch `master` → `main` (if desired)
-- [ ] CI pipeline setup (GitHub Actions: typecheck/lint/test)
-- [ ] Branch protection on `main` (require PR + green CI)
+### Next session checklist (Session 5 — day 5 of Week 1)
+- [ ] Deploy landing page to Vercel + connect waitlist (Formspree)
+- [ ] Publish survey (PO distributes link)
 - [ ] Update this journal at end of session
 
 > The rest of Week 1 lives in the **Week plan** below — we take it one step per
@@ -200,3 +204,73 @@ dependencies installed, tests passing, app boots, repo live on GitHub.
   This is sustainable. No blocker.
 
 **Morale:** 9/10 — on a fait plus que prévu. Le toolchain fonctionne, le repo est en ligne, la base est solide.
+
+---
+
+## SESSION 3 — 2026-08-19 (1 h) — CI pipeline + branch cleanup
+
+**Done:**
+- [x] Renamed branch `master` → `main` locally
+- [x] Updated default branch on GitHub to `main`
+- [x] Deleted remote `master` branch
+- [x] Created `.github/workflows/ci.yml` — GitHub Actions CI pipeline
+      (typecheck, lint, test on push/PR to main, pnpm cache, concurrency control)
+- [x] Repo made **public** (branch protection requires it on free tier)
+- [x] Branch protection on `main` configured (status checks, stale review dismissal, enforce admins)
+- [x] Updated JOURNAL.md
+
+**Learnings / decisions:**
+- Decision: repo is now **public** (no secrets in code, visibility beneficial)
+- Branch protection requires GitHub Pro for private repos OR public repo
+- PowerShell `Out-File -Encoding utf8` adds BOM → use `-Encoding ascii` for JSON files
+- GitHub API branch protection needs full JSON body via `--input` flag, not `-f` for nested objects
+
+**HALF-DONE:**
+- CI workflow assumes `pnpm lint` works across all packages — domain package has
+  `"lint": "tsc --noEmit"` which is fine, but verify no eslint errors on web package.
+
+**Next session:**
+- [ ] Verify CI passes on GitHub Actions (check first run)
+- [ ] Supabase project (free tier) + first migration skeleton
+- [ ] Update journal
+
+**Blockers:**
+- Shell EPERM persists — workaround confirmed: I write files, user runs commands.
+
+**Energy/morale (1-10) + note:** 8/10 — on est bon, le toolchain est solide. Un peu de friction réseau mais rien de bloquant.
+
+---
+
+## SESSION 4 — 2026-08-19 (1.5 h) — CI green + Supabase deployed
+
+**Done:**
+- [x] Fixed CI pipeline (removed pnpm version conflict, added missing eslint deps)
+- [x] Created PR #1, CI passed green, squash merged
+- [x] Repo made public (branch protection requires it on free tier)
+- [x] Branch protection on `main` configured
+- [x] Supabase CLI installed + authenticated (token generated)
+- [x] Linked to remote project (`mrfrnranqbrosqtobpfa`)
+- [x] Migration `001_initial_schema.sql` deployed: users + profiles + RLS
+- [x] Fixed `config.toml` (was JSON, converted to TOML)
+- [x] Fixed migration: `uuid_generate_v4()` → `gen_random_uuid()`, added IF NOT EXISTS
+
+**Learnings / decisions:**
+- `pnpm/action-setup@v4` auto-reads `packageManager` from `package.json` — don't set `version` manually
+- `eslint` + `eslint-config-next` must be explicit devDeps in `apps/web`
+- `gen_random_uuid()` is native in Supabase (PostgreSQL 13+), no extension needed
+- PowerShell `Out-File -Encoding ascii` avoids BOM issues for JSON files
+- `supabase migration repair` resets migration tracking on remote
+- Duplicate migration policies/tables need `IF NOT EXISTS` / `DROP POLICY IF EXISTS`
+
+**HALF-DONE:**
+- None. Session completed successfully.
+
+**Next session:**
+- [ ] Deploy landing page to Vercel
+- [ ] Connect waitlist (Formspree or Supabase)
+- [ ] Update journal
+
+**Blockers:**
+- Shell EPERM persists — workaround confirmed.
+
+**Energy/morale (1-10) + note:** 9/10 — CI green, Supabase live, la base technique est solide.
