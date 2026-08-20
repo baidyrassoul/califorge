@@ -11,7 +11,8 @@
   // ---- Waitlist form ----
   // 1) Free form backend (Formspree): https://formspree.io — free 50 subs/month.
   //    Replace with your own endpoint. Leave as "" to run in "local-only" mode.
-  var FORMSPREE_ENDPOINT = "";
+  //    SETUP: https://formspree.io → create form → copy endpoint URL
+  var FORMSPREE_ENDPOINT = "https://formspree.io/f/mppakobz";
 
   var form = document.getElementById("waitlist-form");
   var statusEl = document.getElementById("form-status");

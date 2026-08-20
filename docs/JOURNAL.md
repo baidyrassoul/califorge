@@ -16,51 +16,58 @@
 
 ## Current snapshot
 
-> Last updated: **2026-08-17 (Session 2 — end of week)**
+> Last updated: **2026-08-20 (Session 5)**
 
 ### Where we stopped
-**Phase 0 in progress — Week 1, Day 1-2 complete.** Monorepo scaffolded,
-dependencies installed, tests passing, app boots, repo live on GitHub.
+**Phase 0 in progress — Week 1 COMPLETE.** Monorepo scaffolded, CI live,
+Supabase deployed, landing page live on Vercel with working waitlist.
 
 ### Done so far
 - ✅ Project planning docs: `PROJECT.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
   `WORKFLOW.md`, `DECISIONS.md`, `RESEARCH.md`, `FEATURES.md`
 - ✅ Validation survey (EN + FR) ready in `docs/SURVEY.md`
-- ✅ Landing page + waitlist (HTML/CSS/JS) in `landing/` — NOT yet deployed
+- ✅ Landing page deployed to Vercel: **https://califorge-landing.vercel.app**
+- ✅ Waitlist connected to Formspree (endpoint: `https://formspree.io/f/mppakobz`)
 - ✅ Session journal (`JOURNAL.md`) + full feature inventory (`FEATURES.md`)
 - ✅ Monorepo scaffold: root config, `apps/web` (Next.js+TS+Tailwind),
   `packages/domain` (XP engine + tests), supabase migrations skeleton
-- ✅ `pnpm install` — all 90 packages installed
+- ✅ `pnpm install` — all packages installed
 - ✅ `pnpm test:unit` — 3/3 tests pass (XP engine)
 - ✅ `pnpm dev` — app boots on localhost:3000 (Next.js 15 + Turbopack)
-- ✅ Git initialized + first commit on `master`
+- ✅ Git initialized + first commit
 - ✅ GitHub CLI installed + authenticated (baidyrassoul)
-- ✅ Private repo created: `baidyrassoul/califorge`
-- ✅ Code pushed to GitHub
+- ✅ Repo public + pushed: `baidyrassoul/califorge` (branch `main`)
+- ✅ CI pipeline: GitHub Actions (typecheck/lint/test on push + PR)
+- ✅ Branch protection on `main` (status checks required)
+- ✅ CI green — first PR merged (#1: eslint deps fix)
+- ✅ Supabase project created (free tier, nano compute)
+- ✅ Supabase CLI installed + linked + authenticated
+- ✅ Migration `001_initial_schema.sql` deployed (users + profiles + RLS)
+- ✅ `.env.local` with Supabase URL + anon key (gitignored)
+- ✅ Vercel CLI installed + project `califorge-landing` created
 
 ### In progress
-- ⏳ Nothing active — paused until next week
+- ⏳ Publish survey (PO distributes link) — survey link still placeholder in `script.js`
 
 ### HALF-DONE / to be careful about
 - Domain engine has only `xp.ts` + tests — Week 2 will add skill-tree, achievements,
   quests, scoring engines.
-- Supabase migration `001_initial_schema.sql` has only `users` + `profiles` tables
-  + basic RLS. Full schema comes in Week 2.
-- Default branch is `master` (Windows default). Consider renaming to `main`
-  in Session 3 for consistency with workflow docs.
+- Supabase schema has only `users` + `profiles` — full schema comes in Week 2.
+- `.env.local` has real Supabase credentials — never commit this file.
+- Survey link in `landing/script.js` is still `YOUR_SURVEY_ID` placeholder.
 
 ### Blockers
 - 🚧 **Shell EPERM persists** — workaround confirmed: I write files, user runs commands.
   This is sustainable long-term.
 
-### Next session checklist (Session 3 — day 3 of Week 1)
-- [ ] Rename branch `master` → `main` (if desired)
-- [ ] CI pipeline setup (GitHub Actions: typecheck/lint/test)
-- [ ] Branch protection on `main` (require PR + green CI)
+### Next session checklist (Session 6 — Week 2, Day 1)
+- [ ] Replace survey placeholder link in `landing/script.js` with real Tally.so/Google Forms URL
+- [ ] Publish survey (PO distributes link)
+- [ ] Start Week 2: `packages/domain` skill-tree types + unlock logic
+- [ ] Design system: Tailwind config, color/typography tokens
 - [ ] Update this journal at end of session
 
-> The rest of Week 1 lives in the **Week plan** below — we take it one step per
-> session, never everything at once.
+> Week 1 is done. Week 2 starts with domain engines + design system — see **Week plan** below.
 
 ---
 
@@ -200,3 +207,104 @@ dependencies installed, tests passing, app boots, repo live on GitHub.
   This is sustainable. No blocker.
 
 **Morale:** 9/10 — on a fait plus que prévu. Le toolchain fonctionne, le repo est en ligne, la base est solide.
+
+---
+
+## SESSION 3 — 2026-08-19 (1 h) — CI pipeline + branch cleanup
+
+**Done:**
+- [x] Renamed branch `master` → `main` locally
+- [x] Updated default branch on GitHub to `main`
+- [x] Deleted remote `master` branch
+- [x] Created `.github/workflows/ci.yml` — GitHub Actions CI pipeline
+      (typecheck, lint, test on push/PR to main, pnpm cache, concurrency control)
+- [x] Repo made **public** (branch protection requires it on free tier)
+- [x] Branch protection on `main` configured (status checks, stale review dismissal, enforce admins)
+- [x] Updated JOURNAL.md
+
+**Learnings / decisions:**
+- Decision: repo is now **public** (no secrets in code, visibility beneficial)
+- Branch protection requires GitHub Pro for private repos OR public repo
+- PowerShell `Out-File -Encoding utf8` adds BOM → use `-Encoding ascii` for JSON files
+- GitHub API branch protection needs full JSON body via `--input` flag, not `-f` for nested objects
+
+**HALF-DONE:**
+- CI workflow assumes `pnpm lint` works across all packages — domain package has
+  `"lint": "tsc --noEmit"` which is fine, but verify no eslint errors on web package.
+
+**Next session:**
+- [ ] Verify CI passes on GitHub Actions (check first run)
+- [ ] Supabase project (free tier) + first migration skeleton
+- [ ] Update journal
+
+**Blockers:**
+- Shell EPERM persists — workaround confirmed: I write files, user runs commands.
+
+**Energy/morale (1-10) + note:** 8/10 — on est bon, le toolchain est solide. Un peu de friction réseau mais rien de bloquant.
+
+---
+
+## SESSION 4 — 2026-08-19 (1.5 h) — CI green + Supabase deployed
+
+**Done:**
+- [x] Fixed CI pipeline (removed pnpm version conflict, added missing eslint deps)
+- [x] Created PR #1, CI passed green, squash merged
+- [x] Repo made public (branch protection requires it on free tier)
+- [x] Branch protection on `main` configured
+- [x] Supabase CLI installed + authenticated (token generated)
+- [x] Linked to remote project (`mrfrnranqbrosqtobpfa`)
+- [x] Migration `001_initial_schema.sql` deployed: users + profiles + RLS
+- [x] Fixed `config.toml` (was JSON, converted to TOML)
+- [x] Fixed migration: `uuid_generate_v4()` → `gen_random_uuid()`, added IF NOT EXISTS
+
+**Learnings / decisions:**
+- `pnpm/action-setup@v4` auto-reads `packageManager` from `package.json` — don't set `version` manually
+- `eslint` + `eslint-config-next` must be explicit devDeps in `apps/web`
+- `gen_random_uuid()` is native in Supabase (PostgreSQL 13+), no extension needed
+- PowerShell `Out-File -Encoding ascii` avoids BOM issues for JSON files
+- `supabase migration repair` resets migration tracking on remote
+- Duplicate migration policies/tables need `IF NOT EXISTS` / `DROP POLICY IF EXISTS`
+
+**HALF-DONE:**
+- None. Session completed successfully.
+
+**Next session:**
+- [ ] Deploy landing page to Vercel
+- [ ] Connect waitlist (Formspree or Supabase)
+- [ ] Update journal
+
+**Blockers:**
+- Shell EPERM persists — workaround confirmed.
+
+**Energy/morale (1-10) + note:** 9/10 — CI green, Supabase live, la base technique est solide.
+
+---
+
+## SESSION 5 — 2026-08-20 (0.5 h) — Landing page deployed + waitlist live
+
+**Done:**
+- [x] Created `landing/vercel.json` with security headers
+- [x] Updated `landing/script.js` with Formspree endpoint (`https://formspree.io/f/mppakobz`)
+- [x] Installed Vercel CLI (v59.1.4)
+- [x] Deployed landing page to Vercel: **https://califorge-landing.vercel.app**
+- [x] Waitlist form tested — Formspree integration working, email received
+- [x] Updated JOURNAL.md
+
+**Learnings / decisions:**
+- Decision: waitlist backend = **Formspree** (free 50 emails/month, zero setup)
+- Vercel auto-detects static sites — no build config needed for plain HTML/CSS/JS
+- Vercel project name: `califorge-landing`, team: `agro-sen`
+
+**HALF-DONE:**
+- Survey link in `script.js` is still placeholder (`YOUR_SURVEY_ID`) — needs real URL next session.
+
+**Next session:**
+- [ ] Replace survey placeholder link with real URL
+- [ ] Publish survey (PO distributes)
+- [ ] Start Week 2: domain engines + design system
+- [ ] Update journal
+
+**Blockers:**
+- Shell EPERM persists — workaround confirmed.
+
+**Energy/morale (1-10) + note:** 9/10 — Week 1 terminée, landing live, waitlist opérationnelle. On entre dans le dev produit.
