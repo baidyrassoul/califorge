@@ -16,18 +16,18 @@
 
 ## Current snapshot
 
-> Last updated: **2026-08-19 (Session 4)**
+> Last updated: **2026-08-20 (Session 5)**
 
 ### Where we stopped
-**Phase 0 in progress — Week 1, Day 1-4 complete.** Monorepo scaffolded,
-dependencies installed, tests passing, CI pipeline live & green, repo public on GitHub,
-Supabase project created + initial migration deployed.
+**Phase 0 in progress — Week 1 COMPLETE.** Monorepo scaffolded, CI live,
+Supabase deployed, landing page live on Vercel with working waitlist.
 
 ### Done so far
 - ✅ Project planning docs: `PROJECT.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
   `WORKFLOW.md`, `DECISIONS.md`, `RESEARCH.md`, `FEATURES.md`
 - ✅ Validation survey (EN + FR) ready in `docs/SURVEY.md`
-- ✅ Landing page + waitlist (HTML/CSS/JS) in `landing/` — NOT yet deployed
+- ✅ Landing page deployed to Vercel: **https://califorge-landing.vercel.app**
+- ✅ Waitlist connected to Formspree (endpoint: `https://formspree.io/f/mppakobz`)
 - ✅ Session journal (`JOURNAL.md`) + full feature inventory (`FEATURES.md`)
 - ✅ Monorepo scaffold: root config, `apps/web` (Next.js+TS+Tailwind),
   `packages/domain` (XP engine + tests), supabase migrations skeleton
@@ -44,27 +44,30 @@ Supabase project created + initial migration deployed.
 - ✅ Supabase CLI installed + linked + authenticated
 - ✅ Migration `001_initial_schema.sql` deployed (users + profiles + RLS)
 - ✅ `.env.local` with Supabase URL + anon key (gitignored)
+- ✅ Vercel CLI installed + project `califorge-landing` created
 
 ### In progress
-- ⏳ Nothing active
+- ⏳ Publish survey (PO distributes link) — survey link still placeholder in `script.js`
 
 ### HALF-DONE / to be careful about
 - Domain engine has only `xp.ts` + tests — Week 2 will add skill-tree, achievements,
   quests, scoring engines.
 - Supabase schema has only `users` + `profiles` — full schema comes in Week 2.
 - `.env.local` has real Supabase credentials — never commit this file.
+- Survey link in `landing/script.js` is still `YOUR_SURVEY_ID` placeholder.
 
 ### Blockers
 - 🚧 **Shell EPERM persists** — workaround confirmed: I write files, user runs commands.
   This is sustainable long-term.
 
-### Next session checklist (Session 5 — day 5 of Week 1)
-- [ ] Deploy landing page to Vercel + connect waitlist (Formspree)
+### Next session checklist (Session 6 — Week 2, Day 1)
+- [ ] Replace survey placeholder link in `landing/script.js` with real Tally.so/Google Forms URL
 - [ ] Publish survey (PO distributes link)
+- [ ] Start Week 2: `packages/domain` skill-tree types + unlock logic
+- [ ] Design system: Tailwind config, color/typography tokens
 - [ ] Update this journal at end of session
 
-> The rest of Week 1 lives in the **Week plan** below — we take it one step per
-> session, never everything at once.
+> Week 1 is done. Week 2 starts with domain engines + design system — see **Week plan** below.
 
 ---
 
@@ -274,3 +277,34 @@ Supabase project created + initial migration deployed.
 - Shell EPERM persists — workaround confirmed.
 
 **Energy/morale (1-10) + note:** 9/10 — CI green, Supabase live, la base technique est solide.
+
+---
+
+## SESSION 5 — 2026-08-20 (0.5 h) — Landing page deployed + waitlist live
+
+**Done:**
+- [x] Created `landing/vercel.json` with security headers
+- [x] Updated `landing/script.js` with Formspree endpoint (`https://formspree.io/f/mppakobz`)
+- [x] Installed Vercel CLI (v59.1.4)
+- [x] Deployed landing page to Vercel: **https://califorge-landing.vercel.app**
+- [x] Waitlist form tested — Formspree integration working, email received
+- [x] Updated JOURNAL.md
+
+**Learnings / decisions:**
+- Decision: waitlist backend = **Formspree** (free 50 emails/month, zero setup)
+- Vercel auto-detects static sites — no build config needed for plain HTML/CSS/JS
+- Vercel project name: `califorge-landing`, team: `agro-sen`
+
+**HALF-DONE:**
+- Survey link in `script.js` is still placeholder (`YOUR_SURVEY_ID`) — needs real URL next session.
+
+**Next session:**
+- [ ] Replace survey placeholder link with real URL
+- [ ] Publish survey (PO distributes)
+- [ ] Start Week 2: domain engines + design system
+- [ ] Update journal
+
+**Blockers:**
+- Shell EPERM persists — workaround confirmed.
+
+**Energy/morale (1-10) + note:** 9/10 — Week 1 terminée, landing live, waitlist opérationnelle. On entre dans le dev produit.
